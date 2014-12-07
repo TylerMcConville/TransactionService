@@ -74,7 +74,7 @@ namespace TransactionService.Data_Access
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[Transaction]")]
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Transactions")]
 	public partial class Transaction : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
@@ -82,13 +82,13 @@ namespace TransactionService.Data_Access
 		
 		private int _Id;
 		
-		private string _Description;
-		
 		private decimal _Amount;
 		
-		private int _TransactionType;
+		private string _Description;
 		
-		private int _TransactionNecessity;
+		private bool _WasPlanned;
+		
+		private bool _WasNecessary;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -96,14 +96,14 @@ namespace TransactionService.Data_Access
     partial void OnCreated();
     partial void OnIdChanging(int value);
     partial void OnIdChanged();
-    partial void OnDescriptionChanging(string value);
-    partial void OnDescriptionChanged();
     partial void OnAmountChanging(decimal value);
     partial void OnAmountChanged();
-    partial void OnTransactionTypeChanging(int value);
-    partial void OnTransactionTypeChanged();
-    partial void OnTransactionNecessityChanging(int value);
-    partial void OnTransactionNecessityChanged();
+    partial void OnDescriptionChanging(string value);
+    partial void OnDescriptionChanged();
+    partial void OnWasPlannedChanging(bool value);
+    partial void OnWasPlannedChanged();
+    partial void OnWasNecessaryChanging(bool value);
+    partial void OnWasNecessaryChanged();
     #endregion
 		
 		public Transaction()
@@ -111,7 +111,7 @@ namespace TransactionService.Data_Access
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int Id
 		{
 			get
@@ -127,26 +127,6 @@ namespace TransactionService.Data_Access
 					this._Id = value;
 					this.SendPropertyChanged("Id");
 					this.OnIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(100)")]
-		public string Description
-		{
-			get
-			{
-				return this._Description;
-			}
-			set
-			{
-				if ((this._Description != value))
-				{
-					this.OnDescriptionChanging(value);
-					this.SendPropertyChanging();
-					this._Description = value;
-					this.SendPropertyChanged("Description");
-					this.OnDescriptionChanged();
 				}
 			}
 		}
@@ -171,42 +151,62 @@ namespace TransactionService.Data_Access
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransactionType", DbType="Int NOT NULL")]
-		public int TransactionType
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Description", DbType="NVarChar(100)")]
+		public string Description
 		{
 			get
 			{
-				return this._TransactionType;
+				return this._Description;
 			}
 			set
 			{
-				if ((this._TransactionType != value))
+				if ((this._Description != value))
 				{
-					this.OnTransactionTypeChanging(value);
+					this.OnDescriptionChanging(value);
 					this.SendPropertyChanging();
-					this._TransactionType = value;
-					this.SendPropertyChanged("TransactionType");
-					this.OnTransactionTypeChanged();
+					this._Description = value;
+					this.SendPropertyChanged("Description");
+					this.OnDescriptionChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TransactionNecessity", DbType="Int NOT NULL")]
-		public int TransactionNecessity
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WasPlanned", DbType="Bit NOT NULL")]
+		public bool WasPlanned
 		{
 			get
 			{
-				return this._TransactionNecessity;
+				return this._WasPlanned;
 			}
 			set
 			{
-				if ((this._TransactionNecessity != value))
+				if ((this._WasPlanned != value))
 				{
-					this.OnTransactionNecessityChanging(value);
+					this.OnWasPlannedChanging(value);
 					this.SendPropertyChanging();
-					this._TransactionNecessity = value;
-					this.SendPropertyChanged("TransactionNecessity");
-					this.OnTransactionNecessityChanged();
+					this._WasPlanned = value;
+					this.SendPropertyChanged("WasPlanned");
+					this.OnWasPlannedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WasNecessary", DbType="Bit NOT NULL")]
+		public bool WasNecessary
+		{
+			get
+			{
+				return this._WasNecessary;
+			}
+			set
+			{
+				if ((this._WasNecessary != value))
+				{
+					this.OnWasNecessaryChanging(value);
+					this.SendPropertyChanging();
+					this._WasNecessary = value;
+					this.SendPropertyChanged("WasNecessary");
+					this.OnWasNecessaryChanged();
 				}
 			}
 		}
